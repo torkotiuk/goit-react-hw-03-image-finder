@@ -11,4 +11,5 @@ const fetchArticles = ({ currentPage = 1, searchQuery = '', perPage = 5 }) => {
     .then(response => response.data.hits);
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default { fetchArticles };

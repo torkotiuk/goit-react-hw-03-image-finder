@@ -6,8 +6,6 @@ const modalRootRef = document.getElementById('modal-root');
 
 class Modal extends Component {
   componentDidMount() {
-    // console.log('Mount modal');
-
     window.addEventListener('keydown', this.handleKeyDown);
   }
 
@@ -26,9 +24,6 @@ class Modal extends Component {
   };
 
   handleBackdropClick = e => {
-    // console.log('Click to backrop');
-    // console.log('target', e.target);
-    // console.log('currentTarget', e.currentTarget);
     if (e.currentTarget === e.target) {
       this.props.onClose();
     }
