@@ -12,9 +12,9 @@ class ArticlesView extends Component {
     currentPage: 1,
     searchQuery: '',
     isLoading: false,
-    error: null,
+    error: '',
     showModal: false,
-    largeImage: '',
+    activeImg: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -67,10 +67,9 @@ class ArticlesView extends Component {
   };
 
   toggleModal = (index, largeImg) => {
-    console.log('largeImg', largeImg);
     this.setState(state => ({
       showModal: !state.showModal,
-      activeObjIdx: largeImg,
+      activeImg: largeImg,
     }));
   };
 
@@ -81,34 +80,16 @@ class ArticlesView extends Component {
     return (
       <>
         {error && <h1>Ups, error in your query, please search again</h1>}
+
         <h1>Search images on Pixabay</h1>
 
         <SearchBar onSubmit={this.onChangeQuery} />
 
         <ImageGalleryItem hits={hits} toggleModal={this.toggleModal} />
-        {/* <ul>
-          {hits.map((hit, index) => (
-            <li key={hit.id} className="ImageGalleryItem">
-              <img
-                onClick={() => this.toggleModal(index, hit.largeImageURL)}
-                src={hit.webformatURL}
-                width="200"
-                height="200"
-                alt=""
-                className="ImageGalleryItem-image"
-              />
-            </li>
-          ))}
-        </ul> */}
 
         {showModal && (
           <Modal onClose={this.toggleModal}>
-            <img
-              src={this.state.activeObjIdx}
-              alt=""
-              width="200"
-              height="200"
-            />
+            <img src={this.state.activeImg} alt="" width="200" height="200" />
           </Modal>
         )}
 
