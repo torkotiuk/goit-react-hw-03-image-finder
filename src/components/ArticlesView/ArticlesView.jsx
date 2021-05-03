@@ -49,7 +49,9 @@ class ArticlesView extends Component {
       .catch(error => this.setState({ error: 'Ups...' }))
       .finally(() => {
         this.setState({ isLoading: false });
-        this.scrollSmooth();
+        if (currentPage > 1) {
+          this.scrollSmooth();
+        }
       });
   };
 
@@ -60,12 +62,6 @@ class ArticlesView extends Component {
     });
   };
 
-  toggleModal = () => {
-    this.setState(state => ({
-      showModal: !state.showModal,
-    }));
-  };
-
   toggleModal = (index, largeImg) => {
     this.setState(state => ({
       showModal: !state.showModal,
@@ -74,14 +70,12 @@ class ArticlesView extends Component {
   };
 
   render() {
-    const { hits, isLoading, error, showModal } = this.state;
+    const { hits, isLoading, error, showModal, activeImg } = this.state;
     const shouldRenderLoadMoreButton = hits.length > 0 && !isLoading;
 
     return (
       <>
         {error && <h1>Ups, error in your query, please search again</h1>}
-
-        <h1>Search images on Pixabay</h1>
 
         <SearchBar onSubmit={this.onChangeQuery} />
 
@@ -89,19 +83,37 @@ class ArticlesView extends Component {
 
         {showModal && (
           <Modal onClose={this.toggleModal}>
-            <img src={this.state.activeImg} alt="" width="200" height="200" />
+            {isLoading && (
+              <Loader
+                type="BallTriangle"
+                color="#00BFFF"
+                height={120}
+                width={120}
+              />
+            )}
+            <img src={activeImg} alt="" />
           </Modal>
         )}
 
-        {isLoading && (
-          <Loader type="BallTriangle" color="#00BFFF" height={80} width={80} />
-        )}
-
-        {shouldRenderLoadMoreButton && (
-          <button type="button" onClick={this.fetchArticles}>
-            Load more
-          </button>
-        )}
+        <div className="Button_align">
+          {isLoading && (
+            <Loader
+              type="BallTriangle"
+              color="#00BFFF"
+              height={80}
+              width={80}
+            />
+          )}
+          {shouldRenderLoadMoreButton && (
+            <button
+              type="button"
+              className="Button"
+              onClick={this.fetchArticles}
+            >
+              Load more
+            </button>
+          )}
+        </div>
       </>
     );
   }
